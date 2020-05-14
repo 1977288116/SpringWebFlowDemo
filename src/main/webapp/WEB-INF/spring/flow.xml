@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/webflow-config
+            http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
+
+    <!--<bean id="springWebAppInitializer" class="com.chenjl.springConfig.SpringWebAppInitializer"/>-->
+
+    <context:component-scan base-package="com.chenjl.controller" />
+
+    <webflow-config:flow-executor id="flowExecutor"/>
+
+    <!--base-path属性配置流程注册表-->
+    <webflow-config:flow-registry id="flowRegistry" base-path="/WEB-INF/flows">
+        <webflow-config:flow-location-pattern value="/**/*-flow.xml"/>
+    </webflow-config:flow-registry>
+
+    <!--显示声明流程定义文件的位置-->
+    <!--<flow:flow-registry id="flowDefinitionRegistry">-->
+    <!--<flow:flow-location path="/WEB-INF/flows/pizza/pizza-flow.xml"/>-->
+    <!--</flow:flow-registry>-->
+
+    <bean class = "org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+        <property name="flowRegistry" ref="flowRegistry"/>
+    </bean>
+    <bean class = "org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <property name="flowExecutor" ref="flowExecutor"/>
+    </bean>
+</beans>
